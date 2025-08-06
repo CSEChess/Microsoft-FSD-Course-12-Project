@@ -1,0 +1,33 @@
+@page "/skills"
+@inject SkillService SkillService
+
+<h3>Skills</h3>
+
+@if (skills == null)
+{
+    <p>Loading skills...</p>
+}
+else if (skills.Count == 0)
+{
+    <p>No skills available.</p>
+}
+else
+{
+    <div class="d-flex flex-wrap gap-2">
+        @foreach (var skill in skills)
+        {
+            <span class="badge bg-primary text-white p-2">
+                @skill.Name (@skill.Level)
+            </span>
+        }
+    </div>
+}
+
+@code {
+    private List<Skill>? skills;
+
+    protected override async Task OnInitializedAsync()
+    {
+        skills = await SkillService.GetSkillsAsync();
+    }
+}

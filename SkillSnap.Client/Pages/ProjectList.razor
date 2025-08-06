@@ -1,0 +1,35 @@
+@page "/projects"
+@inject ProjectService ProjectService
+
+<h3>Projects</h3>
+
+@if (projects == null)
+{
+    <p>Loading projects...</p>
+}
+else if (projects.Count == 0)
+{
+    <p>No projects found.</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var project in projects)
+        {
+            <li class="list-group-item">
+                <strong>@project.Title</strong><br />
+                @project.Description<br />
+                <img src="@project.ImageUrl" alt="@project.Title" width="150" />
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<Project>? projects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await ProjectService.GetProjectsAsync();
+    }
+}
